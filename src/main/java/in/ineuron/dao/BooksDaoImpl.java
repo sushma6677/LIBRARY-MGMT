@@ -1,3 +1,4 @@
+
 package in.ineuron.dao;
 
 import java.io.FileNotFoundException;
@@ -18,8 +19,8 @@ public class BooksDaoImpl implements IBooksDao{
 	private ResultSet resultSet = null;
 	@Override
 	public String addBook(Books book) {
-		String status = "failure";
-		String insertBookQuery = "insert into books (book_id,author_name,title,cat_name,book_no,price_no,qty)values(?,?,?,?,?,?,?)";
+		String status = "fail";
+		String insertBookQuery = "insert into books(book_id,author_name,title,cat_name,book_price,qty,edition,description)values(?,?,?,?,?,?,?,?)";
 		try {
 			try {
 				connection = JdbcUtil.getJdbcConnection();
@@ -39,16 +40,19 @@ public class BooksDaoImpl implements IBooksDao{
 				prepareStatement.setString(2, book.getAuthorName());
 				prepareStatement.setString(3, book.getTitle());
 				prepareStatement.setString(4, book.getCatName());
-				prepareStatement.setString(5, book.getBookNo());
-				prepareStatement.setString(6, book.getBookPrice());
-				prepareStatement.setString(7, book.getQty());
+				prepareStatement.setString(5, book.getBookPrice());
+			    prepareStatement.setString(6, book.getQty());		
+			    prepareStatement.setString(7, book.getEdition());
+			    prepareStatement.setString(8, book.getDescription());
+				
+				
 
 				int rowAffected = prepareStatement.executeUpdate();
 
 				if (rowAffected == 1) {
 					return "success";
 				} else {
-					return "failure";
+					return "fail";
 				}
 			}
 		} catch (SQLException e) {
@@ -103,7 +107,7 @@ public class BooksDaoImpl implements IBooksDao{
 	@Override
 	public String updateBook(Books book) {
 		
-		String status="failure";
+		String status="fail";
 		try {
 			connection = JdbcUtil.getJdbcConnection();
 		} catch (FileNotFoundException e1) {
@@ -119,18 +123,19 @@ public class BooksDaoImpl implements IBooksDao{
 		try {
 
 			if (connection != null) {
-				String sqlUpdateQuery = "update books set author_name=?,title=?,cat_name=?,book_no=?,price_no=?,qty=?where book_id=?";
+				String sqlUpdateQuery = "update books set author_name=?,title=?,cat_name=?,book_price=?,qty=?,edition=?,description=? where book_id=?";
 				prepareStatement=connection.prepareStatement(sqlUpdateQuery);
 			}
 			if(prepareStatement!=null) {
+				
 				prepareStatement.setString(1, book.getAuthorName());
 				prepareStatement.setString(2, book.getTitle());
 				prepareStatement.setString(3, book.getCatName());
-				prepareStatement.setString(4, book.getBookNo());
-				prepareStatement.setString(5, book.getBookPrice());
-				prepareStatement.setString(6, book.getQty());
-				prepareStatement.setString(7, book.getBookId());
-				
+				prepareStatement.setString(4, book.getBookPrice());
+				prepareStatement.setString(5, book.getQty());
+				prepareStatement.setString(6, book.getEdition());
+				prepareStatement.setString(7, book.getDescription());
+				prepareStatement.setString(8, book.getBookId());
 				int rowAffected = prepareStatement.executeUpdate();
 				
 				if(rowAffected==1) {
@@ -148,9 +153,9 @@ public class BooksDaoImpl implements IBooksDao{
 	
 
 	@Override
-	public List<Books> searchBook(String bookId, String authorName) {
+	public List<Books> searchBook(String bookId) {
 		List<Books> list = null;
-		String selectBookSearchQuery = "select book_id,author_name,title,cat_name,book_no,book_price,qty from books where book_id=? or author_name=?";
+		String selectBookSearchQuery = "select book_id,author_name,title,cat_name,book_price,qty,edition ,description from books where book_id=? ";
 		try {
 			try {
 				connection = JdbcUtil.getJdbcConnection();
@@ -167,7 +172,7 @@ public class BooksDaoImpl implements IBooksDao{
 			}
 			if (prepareStatement != null) {
 				prepareStatement.setString(1, bookId);
-				prepareStatement.setString(2, authorName);
+			
 				
 				resultSet = prepareStatement.executeQuery();
 			}
@@ -180,9 +185,10 @@ public class BooksDaoImpl implements IBooksDao{
 					books.setAuthorName(resultSet.getString(2));
 					books.setTitle(resultSet.getString(3));
 					books.setCatName(resultSet.getString(4));
-					books.setBookNo(resultSet.getString(5));
-					books.setBookPrice(resultSet.getString(6));
-					books.setQty(resultSet.getString(7));
+					books.setBookPrice(resultSet.getString(5));
+					books.setQty(resultSet.getString(6));
+					books.setEdition(resultSet.getString(7));
+					books.setDescription(resultSet.getString(8));
 					list.add(books);
 				}
 			}
@@ -201,7 +207,7 @@ public class BooksDaoImpl implements IBooksDao{
 	@Override
 	public List<Books> getAllBooks() {
 		List<Books> list = new ArrayList<>();
-		String selectBookSearchQuery = "select book_id,author_name,title,cat_name,book_no,book_price,qty from books";
+		String selectBookSearchQuery = "select book_id,author_name,title,cat_name,book_price,qty,edition,description from books";
 		try {
 			try {
 				connection = JdbcUtil.getJdbcConnection();
@@ -228,9 +234,10 @@ public class BooksDaoImpl implements IBooksDao{
 					books.setAuthorName(resultSet.getString(2));
 					books.setTitle(resultSet.getString(3));
 					books.setCatName(resultSet.getString(4));
-					books.setBookNo(resultSet.getString(5));
-					books.setBookPrice(resultSet.getString(6));
-					books.setQty(resultSet.getString(7));
+					books.setBookPrice(resultSet.getString(5));
+					books.setQty(resultSet.getString(6));
+					books.setEdition(resultSet.getString(7));
+					books.setDescription(resultSet.getString(8));
 					list.add(books);
 					
 				}

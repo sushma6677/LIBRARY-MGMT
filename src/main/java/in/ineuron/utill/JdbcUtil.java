@@ -23,7 +23,7 @@ public class JdbcUtil {
 	}
 
 	public static Connection getJdbcConnection() throws SQLException, IOException,FileNotFoundException {
-		String fileLoc = "";
+		String fileLoc = "E:\\mvcSpring\\Library Managment3\\src\\main\\java\\in\\ineuron\\properties\\application.properties";
 		FileInputStream fis = new FileInputStream(fileLoc);
 		Properties properties = new Properties();
 		properties.load(fis);

@@ -39,14 +39,16 @@
 	<div id="navbarCollapse" class="collapse navbar-collapse">
 		<ul class="nav navbar-nav">
 			<li><a href="#">Home</a></li>
+			
 			<li><a href="#">About</a></li>			
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#">Services <b class="caret"></b></a>
 				<ul class="dropdown-menu">					
-					<li><a href="#">Web Design</a></li>
-					<li><a href="#">Web Development</a></li>
-					<li><a href="#">Graphic Design</a></li>
-					<li><a href="#">Digital Marketing</a></li>
+					<li><a href="./bookscontroller/showsbooks" target="body">Book List</a></li>
+					<li><a href="AddBook.html" target="body">Add Books</a></li>
+					<li><a href="searchBooks.jsp" target="body">book search</a></li>
+					<li><a href="updatebook.jsp" target="body">updating book</a></li>
+					<li><a href="deletebook.jsp" target="body">delete book</a></li>
 				</ul>
 			</li>
 			<li class="active"><a href="#">Pricing</a></li>

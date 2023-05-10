@@ -5,11 +5,10 @@ public class Books {
 	private String authorName;
 	private String title;
 	private String catName;
-	private String bookNo;
 	private String bookPrice;
 	private String qty;
-	
-	
+	private String edition;
+	private String description;
 	public String getBookId() {
 		return bookId;
 	}
@@ -34,12 +33,6 @@ public class Books {
 	public void setCatName(String catName) {
 		this.catName = catName;
 	}
-	public String getBookNo() {
-		return bookNo;
-	}
-	public void setBookNo(String bookNo) {
-		this.bookNo = bookNo;
-	}
 	public String getBookPrice() {
 		return bookPrice;
 	}
@@ -52,6 +45,19 @@ public class Books {
 	public void setQty(String qty) {
 		this.qty = qty;
 	}
+	public String getEdition() {
+		return edition;
+	}
+	public void setEdition(String edition) {
+		this.edition = edition;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	 
 	
 	
 	

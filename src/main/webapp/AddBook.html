@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+body {
+	margin: 0px;
+	font-family: "Audiowide", sans-serif;
+	color: white;
+	background-image: url('background-modified.jpg');
+	background-repeat: no-repeat;
+	height: 500px;
+	width: 700px;
+	background-size: 1525px 650px;
+	
+}
+.libreg {
+	color: blue;
+	height: 550px;
+	width: 500px;
+	background-color: gray;
+	opacity: 0.7;
+	margin-left: 300px;
+	text-align: center;
+	padding-left: 100px;
+}
+input {
+	border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div class="libreg">
+		<h1>Book Registration</h1><br/><br/>
+		<form method="post" action="./bookscontroller/addbook">
+			<table cellpadding="10px">
+				
+				<tr>
+					<th>Book Id</th>
+					<td><input type="text" name="bid" /> </td>
+				</tr>
+				<tr>
+					<th>Author Name</th>
+					<td><input type="text" name="authorName" /> </td>
+				</tr>
+				<tr>
+					<th>Title</th>
+					<td><input type="text" name="title" /> </td>
+				</tr>
+				<tr>
+					<th>Category</th>
+					<td><input type="text" name="catName" /> </td>
+				</tr>
+				
+				<tr>
+					<th>Book Price</th>
+					<td><input type="text" name="bookPrice" /> </td>
+				</tr>
+				
+				<tr>
+					<th>Quantity</th>
+					<td><input type="text" name="qty" /> </td>
+				</tr>
+				
+				<tr>
+					<th>edition</th>
+					<td><input type="text" name="edition" /> </td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td><input type="text" name="description" /> </td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type="submit" value="Submit" /> </td>
+				</tr>
+			</table>		
+		</form>
+</div>
+
+</body>
+</html>

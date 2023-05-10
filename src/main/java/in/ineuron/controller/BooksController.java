@@ -16,57 +16,56 @@ import in.ineuron.service.IBooksService;
 
 import in.ineuron.servicefactory.BooksServiceFactory;
 
-import in.ineuron.utill.UUIDGenrator;
-
-
-@WebServlet("/BooksController/*")
-public class BooksController extends HttpServlet{
+//import in.ineuron.utill.UUIDGenrator;
+///BooksController/*
+@WebServlet(urlPatterns = "/bookscontroller/*")
+public class BooksController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	IBooksService bookservice=null;
+	RequestDispatcher requestDispatcher = null;
 
-public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	doRegisterBooks(request, response);
-}
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
 
-private void doRegisterBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	// TODO Auto-generated method stub
-	IBooksService bookservice=BooksServiceFactory.getBookService();
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
 
-	if(request.getRequestURI().endsWith("addBooks")){
-		
+	public void doProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+	bookservice=BooksServiceFactory.getBookService();
+
+	if(request.getRequestURI().endsWith("addbook")){
+		String Bookid=request.getParameter("bid");
 		String authorName=request.getParameter("authorName");
 		String title = request.getParameter("title");
 		String catName = request.getParameter("catName");
-		String bookNo = request.getParameter("bookNo");
+		
 	   String bookPrice = request.getParameter("bookPrice");
 	   String  qty= request.getParameter("qty");
-		
+	   String edition=request.getParameter("edition");
+		String description=request.getParameter("description");
 	   Books books=new Books();
-		String id = UUIDGenrator.getUniqueId();
-		
+//		String id = UUIDGenrator.getUniqueId();
+		books.setBookId(Bookid);
 		books.setAuthorName(authorName);
 		books.setTitle(title);
 		books.setCatName(catName);
-		books.setBookNo(bookNo);
 		books.setBookPrice(bookPrice);
 		books.setQty(qty);
-		String status = bookservice.addBook(books);
+		books.setEdition(edition);
+		books.setDescription(description);
 		
-		RequestDispatcher rd = null;
 		
-		if(status.equals("success")) {
-			System.out.println("sucess-------------");
-			request.setAttribute("status", "success");
-			rd = request.getRequestDispatcher("../Books.jsp");
-			rd.forward(request, response);
-			//response.sendRedirect("../registration.jsp");
-		}else {
-			System.out.println("failure-------------");
-			request.setAttribute("status", "failure");
-			rd = request.getRequestDispatcher("../Books.jsp");
-			rd.forward(request, response);
-			
-			response.sendRedirect("../Books.jsp");
-		}
+	
+	String addBook = bookservice.addBook(books);
+		System.out.println(addBook);
+		request.setAttribute("addBook", addBook);
+		requestDispatcher = request.getRequestDispatcher("/booksinsertresponse.jsp");
+		requestDispatcher.forward(request, response);
+
 		
 	}
 		
@@ -74,63 +73,66 @@ private void doRegisterBooks(HttpServletRequest request, HttpServletResponse res
 if (request.getRequestURI().endsWith("searchbook")) {
 	bookservice = BooksServiceFactory.getBookService();
 	
-	String bookId = request.getParameter("bookId");
-	String authorName=request.getParameter("authorName");
-	RequestDispatcher rd1=null;
-	List<Books> searchBook = bookservice.searchBook(bookId, authorName);
+	String bookId = request.getParameter("bid");
+	
+
+	List<Books> searchBook = bookservice.searchBook(bookId);
 
 	request.setAttribute("searchBook", searchBook);
-	rd1=request.getRequestDispatcher("../bookssearchresponse.jsp");
-	rd1.forward(request, response);
+	requestDispatcher=request.getRequestDispatcher("../bookssearchresponse.jsp");
+	requestDispatcher.forward(request, response);
 }
 
 
 if (request.getRequestURI().endsWith("deletebook")) {
 	bookservice = BooksServiceFactory.getBookService();
-	String bookId = request.getParameter("bookId");
+	String bookId = request.getParameter("bid");
 
 	String deleteBook = bookservice.deleteBook(bookId);
-	RequestDispatcher rd2=null;
+
 	request.setAttribute("deleteBook", deleteBook);
-	rd2=request.getRequestDispatcher("../booksdeleteresponse.jsp");
-	rd2.forward(request, response);
+	requestDispatcher=request.getRequestDispatcher("../booksdeleteresponse.jsp");
+	requestDispatcher.forward(request, response);
 }
 
-if (request.getRequestURI().endsWith("showbooks.jsp")) {
+if (request.getRequestURI().endsWith("showsbooks")) {
 	bookservice = BooksServiceFactory.getBookService();
-	RequestDispatcher rd3=null;
+
 	List<Books> allBooks = bookservice.getAllBooks();
 	request.setAttribute("allBooks", allBooks);
-	rd3=request.getRequestDispatcher("../showallbooks.jsp");
-	rd3.forward(request, response);
+	requestDispatcher=request.getRequestDispatcher("../showallbooks.jsp");
+	requestDispatcher.forward(request, response);
 }
 
 if (request.getRequestURI().endsWith("searchbookforupdate")) {
 	bookservice = BooksServiceFactory.getBookService();
-	String bookId =request.getParameter("bookId");
+	String bookId =request.getParameter("bid");
 
-	List<Books> searchBook = bookservice.searchBook(bookId,"");
-	RequestDispatcher rd4=null;
+	List<Books> searchBook = bookservice.searchBook(bookId);
+	
 	request.setAttribute("searchBook", searchBook);
-	rd4=request.getRequestDispatcher("../editbook.jsp");
-	rd4.forward(request, response);
+	requestDispatcher=request.getRequestDispatcher("../editbook.jsp");
+	requestDispatcher.forward(request,response);	
+	
+
 }
 if (request.getRequestURI().endsWith("updatebook")) {
 	bookservice = BooksServiceFactory.getBookService();
 		
 	Books book = new Books();
-	book.setBookId(request.getParameter("bookId"));
+	book.setBookId(request.getParameter("bid"));
 	book.setAuthorName(request.getParameter("authorName"));
 	book.setTitle(request.getParameter("title"));
 	book.setCatName(request.getParameter("catName"));
-	book.setBookNo(request.getParameter("bookNo"));
-	book.setBookPrice(request.getParameter("bookPrice"));
+		book.setBookPrice(request.getParameter("bookPrice"));
 	book.setQty(request.getParameter("qty"));
-	RequestDispatcher rd5=null;
+	book.setEdition(request.getParameter("edition"));
+	book.setDescription(request.getParameter("description"));
+
 	String updateBook = bookservice.updateBook(book);
 	request.setAttribute("updateBook", updateBook);
-	rd5 = request.getRequestDispatcher("../../booksupdateresponse.jsp");
-	rd5.forward(request, response);
+	requestDispatcher = request.getRequestDispatcher("../../booksupdateresponse.jsp");
+	requestDispatcher.forward(request, response);
 
 
 }

@@ -27,9 +27,9 @@ public class BooksServiceImpl implements IBooksService{
 	}
 
 	@Override
-	public List<Books> searchBook(String bookId,String authorName) {
+	public List<Books> searchBook(String bookId) {
 		// TODO Auto-generated method stub
-		return booksDao.searchBook(bookId,authorName);
+		return booksDao.searchBook(bookId);
 	}
 
 	@Override

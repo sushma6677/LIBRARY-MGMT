@@ -11,7 +11,7 @@ public interface IBooksService {
 
 	public String updateBook(Books book);
 
-	public List<Books> searchBook(String bookId, String authorName);
+	public List<Books> searchBook(String bookId);
 
 	public List<Books> getAllBooks();
 }
